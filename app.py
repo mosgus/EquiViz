@@ -11,7 +11,7 @@ BACKEND_DIR = BASE_DIR / "backend"
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
-from backend.createPort import validate_portfolio_input
+from backend.postPort import validate_portfolio_input
 
 # Serve templates and static assets from /frontend
 app = Flask(
@@ -33,7 +33,7 @@ def home():
 def create_portfolio():
     data = request.json
 
-    # Run the validation logic from createPort.py
+    # Run the validation logic from postPort.py
     is_valid, message = validate_portfolio_input(data)
 
     if not is_valid:
