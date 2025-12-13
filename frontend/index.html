@@ -74,70 +74,8 @@
     </div>
   </main>
 
-<script>
-  const modal = document.getElementById('createModal');
-  const createBtn = document.querySelector('.port_butt'); // The button that OPENS modal
-  const closeBtn = document.querySelector('.close');
-  const createForm = document.getElementById('createForm');
-  const errorMsg = document.getElementById('errorMessage');
+<script src="./src/js/modal.js" defer></script>
+<script src="./src/js/portfolio.js" defer></script>
 
-  // Open Modal
-  createBtn.addEventListener('click', () => {
-    modal.classList.add('show');
-    errorMsg.style.display = 'none'; // Clear errors when opening
-  });
-
-  // Close Modal
-  closeBtn.addEventListener('click', () => {
-    modal.classList.remove('show');
-  });
-
-  window.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.classList.remove('show');
-    }
-  });
-
-  // Handle Form Submission
-  createForm.addEventListener('submit', async (e) => {
-    e.preventDefault(); // Stop page from reloading
-
-    // 1. Gather data
-    const payload = {
-      name: document.getElementById('portName').value,
-      ticker: document.getElementById('portTicker').value,
-      quantity: document.getElementById('portQty').value,
-      date: document.getElementById('portDate').value
-    };
-
-    try {
-      // 2. Send to Python Backend
-      const response = await fetch('/create-portfolio', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        // Success! Close modal and maybe alert user
-        console.log("Success:", result.message);
-        modal.classList.remove('show');
-        createForm.reset(); // Clear form
-        alert("Portfolio Created!");
-      } else {
-        // Error! Show message inside modal
-        errorMsg.textContent = result.error;
-        errorMsg.style.display = 'block';
-      }
-
-    } catch (err) {
-      console.error("Connection Error:", err);
-      errorMsg.textContent = "Could not connect to server.";
-      errorMsg.style.display = 'block';
-    }
-  });
-</script>
 </body>
-</html>ok that
+</html>
