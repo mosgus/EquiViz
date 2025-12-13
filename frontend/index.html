@@ -53,29 +53,41 @@
       </section>
       <hr>
     </div>
-
-    <div id="createModal" class="modal">
+<div id="createModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Create Portfolio</h2>
+
         <form id="createForm">
-          <input type="text" placeholder="Portfolio Name" required>
-          <input type="number" placeholder="Initial Investment" required>
-          <button type="submit" class="cta port_butt">Create</button>
+          <input type="text" id="portName" placeholder="Portfolio Name" required>
+          <div class="investment-row">
+            <input type="text" id="portTicker" placeholder="Ticker (e.g. AAPL)" required>
+            <input class="quantity-input" id="portQty" type="number" placeholder="Qty" min="1" step="1" required>
+            <input class="date-input" id="portDate" type="date" required>
+          </div>
+
+          <div id="errorMessage" style="color: #ef4444; margin-top: 10px; font-size: 0.9rem; display: none;"></div>
+
+          <button type="submit" class="cta port_butt" style="margin-top: 20px;">Create</button>
         </form>
       </div>
     </div>
-
   </main>
+
 <script>
   const modal = document.getElementById('createModal');
-  const createBtn = document.querySelector('.port_butt');
+  const createBtn = document.querySelector('.port_butt'); // The button that OPENS modal
   const closeBtn = document.querySelector('.close');
+  const createForm = document.getElementById('createForm');
+  const errorMsg = document.getElementById('errorMessage');
 
+  // Open Modal
   createBtn.addEventListener('click', () => {
     modal.classList.add('show');
+    errorMsg.style.display = 'none'; // Clear errors when opening
   });
 
+  // Close Modal
   closeBtn.addEventListener('click', () => {
     modal.classList.remove('show');
   });
@@ -85,7 +97,47 @@
       modal.classList.remove('show');
     }
   });
-</script>
 
+  // Handle Form Submission
+  createForm.addEventListener('submit', async (e) => {
+    e.preventDefault(); // Stop page from reloading
+
+    // 1. Gather data
+    const payload = {
+      name: document.getElementById('portName').value,
+      ticker: document.getElementById('portTicker').value,
+      quantity: document.getElementById('portQty').value,
+      date: document.getElementById('portDate').value
+    };
+
+    try {
+      // 2. Send to Python Backend
+      const response = await fetch('/create-portfolio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Success! Close modal and maybe alert user
+        console.log("Success:", result.message);
+        modal.classList.remove('show');
+        createForm.reset(); // Clear form
+        alert("Portfolio Created!");
+      } else {
+        // Error! Show message inside modal
+        errorMsg.textContent = result.error;
+        errorMsg.style.display = 'block';
+      }
+
+    } catch (err) {
+      console.error("Connection Error:", err);
+      errorMsg.textContent = "Could not connect to server.";
+      errorMsg.style.display = 'block';
+    }
+  });
+</script>
 </body>
-</html>
+</html>ok that

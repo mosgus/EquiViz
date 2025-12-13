@@ -220,25 +220,33 @@ hr { /* Horizontal line below create/upload buttons*/
 .modal-content {
   background: var(--window);
   padding: 40px;
+  position: relative;
   border-radius: 10px;
   box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5);
 
   max-width: 800px;
   width: 90%;
+
+
 }
 
 .modal-content h2 {
-  margin: 0 0 20px 0;
+  margin: 0 -10px 32px 0;
   font-size: 2rem;
   color: #000000;
   font-family: "Roboto", sans-serif;
+
 }
 
 .close {
-  color: var(--foreground);
-  float: right;
+  color: #c64848;
+  position: absolute;
+  top: 1px;
+  right: 14px;
   font-size: 2rem;
   cursor: pointer;
+
+
 }
 
 .close:hover {
@@ -248,7 +256,38 @@ hr { /* Horizontal line below create/upload buttons*/
 .modal-content form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
+  margin-top: 8px;
+}
+
+.investment-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.investment-row input:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.quantity-input {
+  flex: 0 0 104px;
+  max-width: 120px;
+  padding-right: 18px;
+}
+
+.date-input {
+  flex: 0 0 200px;
+  max-width: 220px;
+}
+
+.quantity-input::-webkit-inner-spin-button, /* Makes the arrows in the quantity box larger lol*/
+.quantity-input::-webkit-outer-spin-button {
+  width: 25px;
+  height: 25px;
+  transform: scale(1.2);
+  margin: 0 2px;
 }
 
 .modal-content input {
@@ -258,4 +297,3 @@ hr { /* Horizontal line below create/upload buttons*/
   font-size: 1.8rem;
   background: #f9fafb;
 }
-

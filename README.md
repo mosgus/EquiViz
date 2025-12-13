@@ -10,3 +10,12 @@ A Python-based equity portfolio visualizer using Streamlit and yfinance.
 ```bash
 pip install yfinance --upgrade --no-cache-dir 
 ```
+```bash
+pip install flask
+```
+### How to run
+Currently we run EquiViz locally using Flask. It will be hosted later.
+```bash
+python app.py
+```
+And then use the local server link provided.
