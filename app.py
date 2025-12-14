@@ -4,6 +4,7 @@ from pathlib import Path
 import csv
 from io import TextIOWrapper
 import shutil
+from typing import List, Dict
 
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from werkzeug.utils import secure_filename
@@ -144,6 +145,53 @@ def select_portfolio():
         return jsonify({"success": False, "error": f"Failed to load portfolio: {e}"}), 500
 
     return jsonify({"success": True, "message": "Portfolio loaded.", "path": str(dest_path)}), 200
+
+
+def _load_current_portfolio() -> Dict:
+    current_dir = BACKEND_DIR / "current_portfolio"
+    if not current_dir.exists():
+        raise FileNotFoundError("No current portfolio found.")
+
+    csv_files = list(current_dir.glob("*.csv"))
+    if not csv_files:
+        raise FileNotFoundError("No current portfolio found.")
+
+    csv_path = csv_files[0]
+    with csv_path.open(newline="", encoding="utf-8") as f:
+        reader = csv.reader(f)
+        rows = list(reader)
+
+    if not rows:
+        raise ValueError("Portfolio file is empty.")
+
+    header = rows[0]
+    data_rows = rows[1:]
+    return {"columns": header, "rows": data_rows}
+
+
+@app.route('/current-portfolio', methods=['GET'])
+def current_portfolio():
+    try:
+        table = _load_current_portfolio()
+    except FileNotFoundError as e:
+        return jsonify({"success": False, "error": str(e)}), 404
+    except Exception as e:
+        return jsonify({"success": False, "error": f"Failed to load portfolio: {e}"}), 500
+
+    rows = table["rows"]
+    total = len(rows)
+    if total <= 10:
+        display_rows = rows
+    else:
+        display_rows = rows[:5] + rows[-5:]
+
+    return jsonify({
+        "success": True,
+        "columns": table["columns"],
+        "rows": display_rows,
+        "total_rows": total,
+        "truncated": total > 10
+    }), 200
 
 
 if __name__ == '__main__':

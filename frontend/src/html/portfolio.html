@@ -42,7 +42,14 @@
         <button class="tab inactive">Reports</button>
       </nav>
 
-      <!-- Portfolio table -->
+      <section class="portfolio-table-section">
+        <div class="table-header">
+          <h3>Current Portfolio</h3>
+          <p id="portfolioMeta" class="table-meta"></p>
+        </div>
+        <div id="portfolioTable" class="portfolio-table"></div>
+        <div id="portfolioError" class="upload-error" style="display: none;"></div>
+      </section>
 
       <section class="actions">
         <p>Manage your active portfolio or open a saved one.</p>
@@ -54,5 +61,6 @@
       <hr>
     </div>
   </main>
+<script src="/src/js/currentPortfolio.js" defer></script>
 </body>
 </html>

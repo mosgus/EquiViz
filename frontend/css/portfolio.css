@@ -21,6 +21,77 @@
   cursor: default;
 }
 
+.app-shell {
+  width: min(60vw);
+  min-height: auto;
+  height: auto;
+}
+
+.portfolio-table-section {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 12px 4px 0 4px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0 8px;
+}
+
+.table-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.8rem;
+}
+
+.table-meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.4rem;
+}
+
+.portfolio-table {
+  overflow: auto;
+}
+
+.portfolio-grid {
+  width: 100%;
+  border-collapse: collapse;
+  background: #0b1f3d;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.portfolio-grid th,
+.portfolio-grid td {
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e5e7eb;
+  font-size: 1.5rem;
+  text-align: left;
+}
+
+.portfolio-grid th {
+  background: rgba(255, 255, 255, 0.06);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.portfolio-grid tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.ellipsis-row {
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
 .tab.inactive:hover {
   background: var(--edit-hover);
   transform: translateY(2px);
