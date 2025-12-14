@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7fc95a-e391-4d3b-9fb0-a35a74ffb375" name="Changes" comment="Added Upload and Select functionality.">
+    <list default="true" id="8a7fc95a-e391-4d3b-9fb0-a35a74ffb375" name="Changes" comment="Can project portfolio as a table.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/html/portfolio.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/html/portfolio.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/css/portfolio.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/css/portfolio.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +120,7 @@
       <workItem from="1765643486373" duration="2091000" />
       <workItem from="1765645665492" duration="155000" />
       <workItem from="1765645845706" duration="22273000" />
-      <workItem from="1765672316776" duration="14304000" />
+      <workItem from="1765672316776" duration="16915000" />
     </task>
     <task id="LOCAL-00001" summary="Init Commit">
       <option name="closed" value="true" />
@@ -266,7 +266,31 @@
       <option name="project" value="LOCAL" />
       <updated>1765746670784</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Select functionality works.">
+      <option name="closed" value="true" />
+      <created>1765747745284</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1765747745284</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Can project portfolio as a table.">
+      <option name="closed" value="true" />
+      <created>1765749660588</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1765749660588</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Can project portfolio as a table.">
+      <option name="closed" value="true" />
+      <created>1765749688486</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1765749688486</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -289,7 +313,9 @@
     <MESSAGE value="Saves initial portfolio" />
     <MESSAGE value="Basic portfolio.html created with styling" />
     <MESSAGE value="Added Upload and Select functionality." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Upload and Select functionality." />
+    <MESSAGE value="Select functionality works." />
+    <MESSAGE value="Can project portfolio as a table." />
+    <option name="LAST_COMMIT_MESSAGE" value="Can project portfolio as a table." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/EquiViz$app.coverage" NAME="app Coverage Results" MODIFIED="1765672023896" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
