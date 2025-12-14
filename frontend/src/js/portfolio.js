@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     createForm.reset();
                     alert("Portfolio Created!");
+                    window.location.href = "/src/html/portfolio.html";
                 } else {
                     // Error from backend
                     if (errorMsg) {
