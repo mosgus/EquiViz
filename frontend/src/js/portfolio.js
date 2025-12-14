@@ -1,4 +1,4 @@
-// static/js/portfolio.js
+//portfolio.js
 
 document.addEventListener('DOMContentLoaded', () => {
     const createForm = document.getElementById('createForm');

@@ -45,7 +45,7 @@ def create_portfolio():
     except ValueError as e:
         return jsonify({"success": False, "error": str(e)}), 400
     except Exception as e:
-        return jsonify({"success": False, "error": f"Failed to save portfolio: {e}"}), 500
+        return jsonify({"success": False, "error": f"Failed to save current_portfolio: {e}"}), 500
 
     return jsonify({
         "success": True,

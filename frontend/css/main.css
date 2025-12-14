@@ -67,6 +67,7 @@ body {
   font-weight: 600;
   color: var(--foreground);
   font-size: 2.5rem;
+  text-decoration: none;
 }
 
 .profile-icon { /* Circle. to be replaced with profile icon */

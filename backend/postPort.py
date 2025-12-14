@@ -8,7 +8,7 @@ import yfinance as yf
 
 def validate_portfolio_input(data):
     """
-    Checks if portfolio inputs are possible/correct.
+    Checks if current_portfolio inputs are possible/correct.
     Returns: (is_valid, message)
     """
     name = data.get('name')
@@ -77,7 +77,7 @@ def _clear_portfolio_dir(portfolio_dir: Path) -> None:
 
 def save_portfolio(data):
     """
-    Append a validated portfolio tranche to backend/portfolio/<name>.csv.
+    Append a validated current_portfolio tranche to backend/current_portfolio/<name>.csv.
     """
     name = (data.get('name') or "").strip()
     ticker = data.get('ticker')
@@ -87,19 +87,19 @@ def save_portfolio(data):
     # Slugify the filename to keep it filesystem-friendly
     safe_name = _slugify_name(name)
     if not safe_name:
-        raise ValueError("Invalid portfolio name.")
+        raise ValueError("Invalid current_portfolio name.")
 
     base_dir = Path(__file__).resolve().parent
-    portfolio_dir = base_dir / "portfolio"
+    portfolio_dir = base_dir / "current_portfolio"
     saved_dir = base_dir / "saved_portfolios"
     portfolio_dir.mkdir(parents=True, exist_ok=True)
 
-    # Block creation if a saved portfolio with the same name already exists
+    # Block creation if a saved current_portfolio with the same name already exists
     saved_conflict = saved_dir / f"{safe_name}.csv"
     if saved_conflict.exists():
-        raise ValueError("A saved portfolio with this name already exists. Choose a different name.")
+        raise ValueError("A saved current_portfolio with this name already exists. Choose a different name.")
 
-    # Clear temp portfolio directory before writing a new file
+    # Clear temp current_portfolio directory before writing a new file
     _clear_portfolio_dir(portfolio_dir)
 
     file_path = portfolio_dir / f"{safe_name}.csv"
