@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 
 BASE_DIR = Path(__file__).resolve().parent
 FRONTEND_DIR = BASE_DIR / "frontend"
@@ -43,6 +43,21 @@ def create_portfolio():
     # Logic to actually SAVE the portfolio to a database/file would go here
 
     return jsonify({"success": True, "message": message}), 200
+
+
+# Serve favicon for browsers that request /favicon.ico (and iOS touch icons)
+@app.route('/favicon.ico')
+def favicon():
+    # prefer .ico for browser compatibility
+    ico_path = FRONTEND_DIR / "assets" / "favicon.ico"
+    return send_from_directory(ico_path.parent, ico_path.name)
+
+
+@app.route('/apple-touch-icon.png')
+@app.route('/apple-touch-icon-precomposed.png')
+def apple_icon():
+    png_path = FRONTEND_DIR / "assets" / "favicon.png"
+    return send_from_directory(png_path.parent, png_path.name)
 
 
 if __name__ == '__main__':
