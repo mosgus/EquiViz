@@ -216,7 +216,7 @@ hr { /* Horizontal line below create/upload buttons*/
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translateY(-650px);
+  transform: translateY(-700px);
 }
 
 .modal-content {
@@ -321,4 +321,81 @@ hr { /* Horizontal line below create/upload buttons*/
 
 .submit_port:active {
   transform: translateY(1px);
+}
+
+.upload-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+
+
+}
+
+.upload-option {
+  padding: 14px 18px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  border-radius: 10px;
+
+  background: #082c75;
+  color: #ffffff;
+  border-color: #082c75;
+
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 160ms ease, background-color 120ms ease;
+}
+
+.upload-option:hover {
+  background: #0a3fa0;
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.2);
+}
+
+.upload-option:active {
+  transform: translateY(1px);
+}
+
+.select-option {
+  padding: 14px 18px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  border-radius: 10px;
+  background: #082c75;
+  color: #ffffff;
+  border-color: #082c75;
+}
+
+.select-option:hover {
+  background: #0a3fa0;
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.2);
+}
+
+.upload-error {
+  color: #ef4444;
+  margin-top: 8px;
+  font-size: 1.4rem;
+}
+
+.select-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 0 4px 0;
+}
+
+.select-group label {
+  font-size: 1.5rem;
+  color: #111827;
+}
+
+.select-group select {
+  padding: 12px;
+  font-size: 1.6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #f9fafb;
+}
+
+.select-submit {
+  margin-top: 12px;
 }

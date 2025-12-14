@@ -21,6 +21,11 @@
   cursor: default;
 }
 
+.tab.inactive:hover {
+  background: var(--edit-hover);
+  transform: translateY(2px);
+}
+
 .actions p {
   margin: 0 auto;
   color: var(--muted);

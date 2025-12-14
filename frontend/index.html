@@ -74,10 +74,39 @@
         </form>
       </div>
     </div>
+
+    <div id="uploadModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Select Portfolio</h2>
+        <div class="upload-actions">
+          <button class="upload-option" id="uploadFileButton" type="button">Upload Portfolio</button>
+          <button class="select-option" id="selectSavedButton" type="button">Select Portfolio</button>
+          <input type="file" id="uploadFileInput" accept=".csv" style="display: none;">
+          <div id="uploadError" class="upload-error" style="display: none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="selectModal" class="modal"> <!-- select premade protfolios -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Select Portfolio</h2>
+        <div class="select-group">
+          <label for="savedPortfolioSelect">Choose a saved portfolio</label>
+          <select id="savedPortfolioSelect">
+            <option value="">-- Select --</option>
+          </select>
+        </div>
+        <div id="selectError" class="upload-error" style="display: none;"></div>
+        <button class="submit_port select-submit" id="selectSubmit" type="button">Submit</button>
+      </div>
+    </div>
   </main>
 
 <script src="./src/js/modal.js" defer></script>
 <script src="./src/js/portfolio.js" defer></script>
+<script src="./src/js/portfile.js" defer></script>
 
 </body>
 </html>

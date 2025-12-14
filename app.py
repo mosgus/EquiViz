@@ -1,7 +1,12 @@
 import sys
 from pathlib import Path
 
+import csv
+from io import TextIOWrapper
+import shutil
+
 from flask import Flask, request, jsonify, render_template, send_from_directory
+from werkzeug.utils import secure_filename
 
 BASE_DIR = Path(__file__).resolve().parent
 FRONTEND_DIR = BASE_DIR / "frontend"
@@ -11,7 +16,7 @@ BACKEND_DIR = BASE_DIR / "backend"
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
-from backend.postPort import validate_portfolio_input, save_portfolio
+from backend.postPort import validate_portfolio_input, save_portfolio, _slugify_name
 
 # Serve templates and static assets from /frontend
 app = Flask(
@@ -52,6 +57,93 @@ def create_portfolio():
         "message": message,
         "path": str(saved_path)
     }), 200
+
+
+@app.route('/upload-portfolio', methods=['POST'])
+def upload_portfolio():
+    if 'file' not in request.files:
+        return jsonify({"success": False, "error": "No file provided."}), 400
+
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"success": False, "error": "No file selected."}), 400
+
+    filename = secure_filename(file.filename)
+    if not filename.lower().endswith('.csv'):
+        return jsonify({"success": False, "error": "Only CSV files are supported."}), 400
+
+    # Validate CSV header
+    try:
+        file.stream.seek(0)
+        wrapper = TextIOWrapper(file.stream, encoding='utf-8', newline='')
+        reader = csv.reader(wrapper)
+        header = next(reader, [])
+        expected = ["Asset", "Quantity", "Date Acquired"]
+        normalized = [h.strip() for h in header]
+        if normalized != expected:
+            return jsonify({"success": False, "error": "CSV has incorrect format."}), 400
+    except Exception:
+        return jsonify({"success": False, "error": "CSV has incorrect format."}), 400
+    finally:
+        file.stream.seek(0)
+
+    dest_dir = BACKEND_DIR / "current_portfolio"
+    dest_dir.mkdir(parents=True, exist_ok=True)
+
+    # Clear previous uploads
+    for item in dest_dir.iterdir():
+        if item.is_file():
+            item.unlink()
+
+    dest_path = dest_dir / filename
+    try:
+        file.save(dest_path)
+    except Exception as e:
+        return jsonify({"success": False, "error": f"Failed to save file: {e}"}), 500
+
+    return jsonify({"success": True, "message": "Portfolio uploaded.", "path": str(dest_path)}), 200
+
+
+@app.route('/saved-portfolios', methods=['GET'])
+def saved_portfolios():
+    saved_dir = BACKEND_DIR / "saved_portfolios"
+    saved_dir.mkdir(parents=True, exist_ok=True)
+    portfolios = []
+    for f in saved_dir.glob("*.csv"):
+        if f.is_file():
+            portfolios.append(f.stem)
+    return jsonify({"success": True, "portfolios": portfolios}), 200
+
+
+@app.route('/select-portfolio', methods=['POST'])
+def select_portfolio():
+    data = request.json or {}
+    name = (data.get('name') or "").strip()
+    if not name:
+        return jsonify({"success": False, "error": "Portfolio name is required."}), 400
+
+    safe_name = _slugify_name(name)
+    if not safe_name:
+        return jsonify({"success": False, "error": "Invalid portfolio name."}), 400
+
+    saved_dir = BACKEND_DIR / "saved_portfolios"
+    source_file = saved_dir / f"{safe_name}.csv"
+    if not source_file.exists():
+        return jsonify({"success": False, "error": "Portfolio not found."}), 404
+
+    dest_dir = BACKEND_DIR / "current_portfolio"
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    for item in dest_dir.iterdir():
+        if item.is_file():
+            item.unlink()
+
+    dest_path = dest_dir / source_file.name
+    try:
+        shutil.copy2(source_file, dest_path)
+    except Exception as e:
+        return jsonify({"success": False, "error": f"Failed to load portfolio: {e}"}), 500
+
+    return jsonify({"success": True, "message": "Portfolio loaded.", "path": str(dest_path)}), 200
 
 
 if __name__ == '__main__':
