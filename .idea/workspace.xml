@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7fc95a-e391-4d3b-9fb0-a35a74ffb375" name="Changes" comment="Can project portfolio as a table.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/css/portfolio.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/css/portfolio.css" afterDir="false" />
+    <list default="true" id="8a7fc95a-e391-4d3b-9fb0-a35a74ffb375" name="Changes" comment="Aesthetic change.">
+      <change afterPath="$PROJECT_DIR$/backend/saved_portfolios/poop2.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EquiViz.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/js/currentPortfolio.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/js/currentPortfolio.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +122,7 @@
       <workItem from="1765643486373" duration="2091000" />
       <workItem from="1765645665492" duration="155000" />
       <workItem from="1765645845706" duration="22273000" />
-      <workItem from="1765672316776" duration="16915000" />
+      <workItem from="1765672316776" duration="17998000" />
     </task>
     <task id="LOCAL-00001" summary="Init Commit">
       <option name="closed" value="true" />
@@ -290,7 +292,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765749688486</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Aesthetic change.">
+      <option name="closed" value="true" />
+      <created>1765750398562</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1765750398562</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -315,7 +325,8 @@
     <MESSAGE value="Added Upload and Select functionality." />
     <MESSAGE value="Select functionality works." />
     <MESSAGE value="Can project portfolio as a table." />
-    <option name="LAST_COMMIT_MESSAGE" value="Can project portfolio as a table." />
+    <MESSAGE value="Aesthetic change." />
+    <option name="LAST_COMMIT_MESSAGE" value="Aesthetic change." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/EquiViz$app.coverage" NAME="app Coverage Results" MODIFIED="1765672023896" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

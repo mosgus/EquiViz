@@ -6,7 +6,7 @@ from io import TextIOWrapper
 import shutil
 from typing import List, Dict
 
-from flask import Flask, request, jsonify, render_template, send_from_directory
+from flask import Flask, request, jsonify, render_template, send_from_directory, send_file
 from werkzeug.utils import secure_filename
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -192,6 +192,23 @@ def current_portfolio():
         "total_rows": total,
         "truncated": total > 10
     }), 200
+
+
+@app.route('/download-current', methods=['GET'])
+def download_current():
+    try:
+        current_dir = BACKEND_DIR / "current_portfolio"
+        csv_files = list(current_dir.glob("*.csv"))
+        if not csv_files:
+            return jsonify({"success": False, "error": "No current portfolio found."}), 404
+        csv_path = csv_files[0]
+    except Exception:
+        return jsonify({"success": False, "error": "No current portfolio found."}), 404
+
+    try:
+        return send_file(csv_path, as_attachment=True, download_name=csv_path.name)
+    except Exception as e:
+        return jsonify({"success": False, "error": f"Failed to download portfolio: {e}"}), 500
 
 
 if __name__ == '__main__':

@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tableContainer = document.getElementById('portfolioTable');
     const meta = document.getElementById('portfolioMeta');
     const errorBox = document.getElementById('portfolioError');
+    const saveBtn = document.querySelector('.save-btn');
 
     const showError = (msg) => {
         if (errorBox) {
@@ -42,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             tbody.appendChild(tr);
 
-            // Insert an ellipsis row if truncated and we're after the 5th entry
+            // Insert an ... row if truncated and we're after the 5th entry
             if (truncated && idx === 4) {
                 const ellipsis = document.createElement('tr');
                 const td = document.createElement('td');
@@ -82,6 +83,38 @@ document.addEventListener('DOMContentLoaded', () => {
             showError('Unable to load portfolio.');
         }
     };
+
+    const downloadPortfolio = async () => {
+        try {
+            const res = await fetch('/download-current');
+            if (!res.ok) {
+                const data = await res.json().catch(() => ({}));
+                showError(data.error || 'Unable to download portfolio.');
+                return;
+            }
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            const filename = res.headers.get('Content-Disposition')?.split('filename=')?.[1]?.replace(/"/g, '') || 'portfolio.csv';
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (err) {
+            console.error(err);
+            showError('Unable to download portfolio.');
+        }
+    };
+
+    if (saveBtn) {
+        saveBtn.addEventListener('click', async () => {
+            const confirmed = window.confirm('Download CSV file of portfolio?');
+            if (!confirmed) return;
+            await downloadPortfolio();
+        });
+    }
 
     loadPortfolio();
 });
