@@ -18,6 +18,7 @@ if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
 from backend.postPort import validate_portfolio_input, save_portfolio, _slugify_name
+from backend.getStonks import update_current_portfolio_data
 
 # Serve templates and static assets from /frontend
 app = Flask(
@@ -102,6 +103,11 @@ def upload_portfolio():
     except Exception as e:
         return jsonify({"success": False, "error": f"Failed to save file: {e}"}), 500
 
+    try:
+        update_current_portfolio_data()
+    except Exception as e:
+        return jsonify({"success": False, "error": f"Saved file but failed to fetch stock data: {e}"}), 500
+
     return jsonify({"success": True, "message": "Portfolio uploaded.", "path": str(dest_path)}), 200
 
 
@@ -141,6 +147,7 @@ def select_portfolio():
     dest_path = dest_dir / source_file.name
     try:
         shutil.copy2(source_file, dest_path)
+        update_current_portfolio_data()
     except Exception as e:
         return jsonify({"success": False, "error": f"Failed to load portfolio: {e}"}), 500
 
