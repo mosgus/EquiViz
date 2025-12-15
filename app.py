@@ -2,9 +2,11 @@ import sys
 from pathlib import Path
 
 import csv
+import io
 from io import TextIOWrapper
 import shutil
 from typing import List, Dict
+from datetime import datetime
 
 from flask import Flask, request, jsonify, render_template, send_from_directory, send_file
 from werkzeug.utils import secure_filename
@@ -179,6 +181,94 @@ def _load_current_portfolio() -> Dict:
     header = rows[0]
     data_rows = rows[1:]
     return {"columns": header, "rows": data_rows}
+
+
+def _current_csv_path() -> Path:
+    current_dir = BACKEND_DIR / "current_portfolio"
+    current_dir.mkdir(parents=True, exist_ok=True)
+    csv_files = list(current_dir.glob("*.csv"))
+    if csv_files:
+        return csv_files[0]
+    return current_dir / "current_portfolio.csv"
+
+
+def _validate_rows(rows: list) -> list:
+    validated = []
+    for idx, row in enumerate(rows, start=1):
+        if len(row) != 3:
+            raise ValueError(f"Row {idx}: expected 3 columns (Asset, Quantity, Date Acquired).")
+        asset, qty, date_str = [c.strip() for c in row]
+        if not asset:
+            raise ValueError(f"Row {idx}: Asset is required.")
+        if len(asset) > 8:
+            raise ValueError(f"Row {idx}: Asset ticker too long.")
+        try:
+            qty_int = int(qty)
+            if qty_int <= 0:
+                raise ValueError
+        except Exception:
+            raise ValueError(f"Row {idx}: Quantity must be a positive integer.")
+        try:
+            date_val = datetime.strptime(date_str, '%Y-%m-%d').date()
+            if date_val > datetime.utcnow().date():
+                raise ValueError
+        except Exception:
+            raise ValueError(f"Row {idx}: Date must be YYYY-MM-DD and not in the future.")
+        validated.append([asset.upper(), str(qty_int), date_str])
+    return validated
+
+
+@app.route('/current-portfolio/raw', methods=['GET'])
+def current_portfolio_raw():
+    try:
+        csv_path = _current_csv_path()
+        if not csv_path.exists():
+            return jsonify({"success": False, "error": "No current portfolio found."}), 404
+        content = csv_path.read_text(encoding='utf-8')
+        return jsonify({"success": True, "text": content, "filename": csv_path.name}), 200
+    except Exception as e:
+        return jsonify({"success": False, "error": f"Failed to load portfolio: {e}"}), 500
+
+
+@app.route('/update-portfolio', methods=['POST'])
+def update_portfolio():
+    data = request.json or {}
+    csv_text = data.get("csv_text", "")
+    if not csv_text.strip():
+        return jsonify({"success": False, "error": "No data provided."}), 400
+
+    try:
+        reader = csv.reader(io.StringIO(csv_text))
+        rows = [row for row in reader if any(cell.strip() for cell in row)]
+    except Exception:
+        return jsonify({"success": False, "error": "Could not parse CSV."}), 400
+
+    if not rows:
+        return jsonify({"success": False, "error": "Portfolio is empty."}), 400
+
+    header = [h.strip() for h in rows[0]]
+    expected = ["Asset", "Quantity", "Date Acquired"]
+    if header != expected:
+        return jsonify({"success": False, "error": "Header must be: Asset,Quantity,Date Acquired"}), 400
+
+    try:
+        validated_rows = _validate_rows(rows[1:])
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 400
+
+    csv_path = _current_csv_path()
+    csv_path.parent.mkdir(parents=True, exist_ok=True)
+
+    try:
+        with csv_path.open("w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow(expected)
+            writer.writerows(validated_rows)
+        update_current_portfolio_data()
+    except Exception as e:
+        return jsonify({"success": False, "error": f"Failed to update portfolio: {e}"}), 500
+
+    return jsonify({"success": True, "message": "Portfolio updated."}), 200
 
 
 @app.route('/current-portfolio', methods=['GET'])

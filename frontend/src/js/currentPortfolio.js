@@ -4,6 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const meta = document.getElementById('portfolioMeta');
     const errorBox = document.getElementById('portfolioError');
     const saveBtn = document.querySelector('.save-btn');
+    const editBtn = document.querySelector('.edit-btn');
+    const editModal = document.getElementById('editModal');
+    const editTextarea = document.getElementById('editTextarea');
+    const editSubmit = document.getElementById('editSubmit');
+    const editError = document.getElementById('editError');
 
     const showError = (msg) => {
         if (errorBox) {
@@ -114,6 +119,94 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!confirmed) return;
             await downloadPortfolio();
         });
+    }
+
+    const showEditError = (msg) => {
+        if (editError) {
+            editError.textContent = msg;
+            editError.style.display = 'block';
+        } else {
+            alert(msg);
+        }
+    };
+
+    const clearEditError = () => {
+        if (editError) editError.style.display = 'none';
+    };
+
+    const loadRawPortfolio = async () => {
+        clearEditError();
+        if (editTextarea) editTextarea.value = '';
+        try {
+            const res = await fetch('/current-portfolio/raw');
+            const data = await res.json();
+            if (!res.ok || !data.success) {
+                showEditError(data.error || 'Unable to load portfolio.');
+                return false;
+            }
+            if (editTextarea) editTextarea.value = data.text || '';
+            return true;
+        } catch (err) {
+            console.error(err);
+            showEditError('Unable to load portfolio.');
+            return false;
+        }
+    };
+
+    const openEditModal = async () => {
+        const ok = await loadRawPortfolio();
+        if (!ok) return;
+        if (editModal) editModal.classList.add('show');
+    };
+
+    const closeEditModal = () => {
+        if (editModal) editModal.classList.remove('show');
+    };
+
+    if (editBtn) {
+        editBtn.addEventListener('click', openEditModal);
+    }
+
+    if (editModal) {
+        editModal.addEventListener('click', (e) => {
+            if (e.target === editModal) {
+                closeEditModal();
+            }
+        });
+        const closeX = editModal.querySelector('.close');
+        if (closeX) {
+            closeX.addEventListener('click', closeEditModal);
+        }
+    }
+
+    const submitEdit = async () => {
+        clearEditError();
+        const text = editTextarea ? editTextarea.value : '';
+        if (!text.trim()) {
+            showEditError('Please provide portfolio CSV content.');
+            return;
+        }
+        try {
+            const res = await fetch('/update-portfolio', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ csv_text: text })
+            });
+            const data = await res.json();
+            if (!res.ok || !data.success) {
+                showEditError(data.error || 'Could not update portfolio.');
+                return;
+            }
+            closeEditModal();
+            await loadPortfolio();
+        } catch (err) {
+            console.error(err);
+            showEditError('Could not update portfolio.');
+        }
+    };
+
+    if (editSubmit) {
+        editSubmit.addEventListener('click', submitEdit);
     }
 
     loadPortfolio();

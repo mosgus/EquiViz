@@ -61,6 +61,18 @@
       <hr>
     </div>
   </main>
+
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Edit Portfolio (CSV)</h2>
+      <p class="edit-helper">Header must be: Asset,Quantity,Date Acquired</p>
+      <textarea id="editTextarea" class="edit-textarea" rows="10" spellcheck="false"></textarea>
+      <div id="editError" class="upload-error" style="display: none;"></div>
+      <button id="editSubmit" class="submit_port" type="button">Save Changes</button>
+    </div>
+  </div>
+
 <script src="/src/js/currentPortfolio.js" defer></script>
 </body>
 </html>
