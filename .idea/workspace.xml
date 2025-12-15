@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7fc95a-e391-4d3b-9fb0-a35a74ffb375" name="Changes" comment="Style change.">
-      <change beforePath="$PROJECT_DIR$/Stock_Analysis.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/config.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/main.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/js/currentPortfolio.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/js/currentPortfolio.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/js/modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/js/modal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/js/portfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/js/portfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/js/portfolio.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/js/portfolio.js" afterDir="false" />
+    <list default="true" id="8a7fc95a-e391-4d3b-9fb0-a35a74ffb375" name="Changes" comment="removed unused files/directories">
+      <change beforePath="$PROJECT_DIR$/backend/current_portfolio/testA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/backend/current_portfolio/testA.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/html/portfolio.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/html/portfolio.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +132,7 @@
       <workItem from="1765643486373" duration="2091000" />
       <workItem from="1765645665492" duration="155000" />
       <workItem from="1765645845706" duration="22273000" />
-      <workItem from="1765672316776" duration="32568000" />
+      <workItem from="1765672316776" duration="37046000" />
     </task>
     <task id="LOCAL-00001" summary="Init Commit">
       <option name="closed" value="true" />
@@ -410,14 +406,21 @@
       <option name="project" value="LOCAL" />
       <updated>1765828286751</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="removed unused files/directories">
+      <option name="closed" value="true" />
+      <created>1765828920743</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1765828920743</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Style updates &amp; made a functional window popup for creating portolios." />
     <MESSAGE value="Updated ReadME.md. Created a Flask HTMl/JS x Python pathway." />
     <MESSAGE value="Checks ticker correctly for initial investment." />
     <MESSAGE value="Modularized JS" />
@@ -442,7 +445,8 @@
     <MESSAGE value="Added test file" />
     <MESSAGE value="test file changes" />
     <MESSAGE value="Style change." />
-    <option name="LAST_COMMIT_MESSAGE" value="Style change." />
+    <MESSAGE value="removed unused files/directories" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed unused files/directories" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/EquiViz$app.coverage" NAME="app Coverage Results" MODIFIED="1765672023896" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

@@ -1,0 +1,50 @@
+:root {
+  --panel: rgba(255, 255, 255, 0.04);
+  --edit: #e4a70d;
+  --edit-hover: #d4941a;
+}
+
+.app-shell {
+  width: min(60vw);
+  height: auto;
+  padding-bottom: 75px;
+}
+
+.analysis-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 4px;
+  color: var(--foreground);
+}
+
+.analysis-header h3 {
+  margin: 0;
+  font-size: 2.2rem;
+}
+
+.analysis-header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.4rem;
+}
+
+.tab {
+  cursor: pointer;
+  color: var(--foreground);
+}
+
+.tab.inactive {
+  color: #96b0e1;
+}
+
+.tab.inactive:hover {
+  background: var(--edit-hover);
+  color: var(--foreground);
+  transform: translateY(2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.tab.active {
+  cursor: default;
+}

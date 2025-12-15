@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EquiViz | Portfolio</title>
+  <title>EquiViz | Global View</title>
   <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='assets/favicon.svg') }}">
   <link rel="alternate icon" type="image/png" href="{{ url_for('static', filename='assets/favicon.png') }}">
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon.ico') }}">
@@ -13,20 +13,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/portfolio.css">
+  <link rel="stylesheet" href="/css/global.css">
 </head>
 
 <body>
   <header class="top-banner">
     <div class="banner-left">
-      <!-- Need to add Burger Icon -->
       <button class="icon-button" type="button" aria-label="Open navigation">
         <svg aria-label="Sign In" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="M24 0H0v24h24z"></path><path fill="#ffffff" fill-opacity=".65" fill-rule="nonzero" d="M12 23C5.925 23 1 18.075 1 12S5.925 1 12 1s11 4.925 11 11-4.925 11-11 11zm0-1c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm0-8a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-1a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 7.5a.5.5 0 1 1-1 0V19a6 6 0 1 1 12 0v1.5a.5.5 0 1 1-1 0V19a5 5 0 0 0-10 0v1.5z"></path></g></svg>
       </button>
       <a class="banner-link" href="/">EquiViz 📊</a>
     </div>
     <div class="banner-right">
-      <span class="banner-link">G.B. and C.K.</span>
+      <span class="banner-link">Sign in</span>
       <span class="profile-icon"></span>
     </div>
   </header>
@@ -34,45 +33,21 @@
   <main class="main-area">
     <div class="app-shell">
       <nav class="tab-bar">
-        <button class="tab active" type="button">Portfolio</button>
+        <button class="tab inactive" type="button" onclick="window.location.href='/src/html/portfolio.html'">Portfolio</button>
         <button class="tab inactive" type="button" onclick="window.location.href='/src/html/analysis.html'">Analysis</button>
         <button class="tab inactive" type="button" onclick="window.location.href='/src/html/optimization.html'">Optimization</button>
         <button class="tab inactive" type="button" onclick="window.location.href='/src/html/sentiment.html'">Sentiment</button>
         <button class="tab inactive" type="button" onclick="window.location.href='/src/html/forecasts.html'">Forecasts</button>
-        <button class="tab inactive" type="button" onclick="window.location.href='/src/html/global.html'">Global View</button>
+        <button class="tab active" type="button">Global View</button>
       </nav>
 
-      <section class="portfolio-table-section">
-        <div class="table-header">
-          <h3>Current Portfolio</h3>
-          <p id="portfolioMeta" class="table-meta"></p>
-        </div>
-        <div id="portfolioTable" class="portfolio-table"></div>
-        <div id="portfolioError" class="upload-error" style="display: none;"></div>
+      <section class="analysis-header">
+        <h3>Global View</h3>
+        <p>Bring your charts and insights here. (Coming soon.)</p>
       </section>
 
-      <section class="actions">
-        <p>Manage your active portfolio or open a saved one.</p>
-        <div class="button-row">
-          <button class="cta edit-btn" type="button">Edit Portfolio</button>
-          <button class="cta save-btn" type="button">Save Portfolio</button>
-        </div>
-      </section>
       <hr>
     </div>
   </main>
-
-  <div id="editModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Edit Portfolio (CSV)</h2>
-      <p class="edit-helper">Header must be: Asset,Quantity,Date Acquired</p>
-      <textarea id="editTextarea" class="edit-textarea" rows="10" spellcheck="false"></textarea>
-      <div id="editError" class="upload-error" style="display: none;"></div>
-      <button id="editSubmit" class="submit_port" type="button">Save Changes</button>
-    </div>
-  </div>
-
-<script src="/src/js/currentPortfolio.js" defer></script>
 </body>
 </html>
