@@ -7,6 +7,7 @@ from io import TextIOWrapper
 import shutil
 from typing import List, Dict
 from datetime import datetime
+import pandas as pd
 
 from flask import Flask, request, jsonify, render_template, send_from_directory, send_file
 from werkzeug.utils import secure_filename
@@ -30,6 +31,10 @@ app = Flask(
     static_url_path=""  # allow /css/... and /assets/... URLs
 )
 
+
+# =========================================================
+# 🔴index.html routes: landing + creation/upload/import 🔴
+# =========================================================
 
 # Route to serve  HTML file
 @app.route('/')
@@ -161,6 +166,10 @@ def select_portfolio():
     return jsonify({"success": True, "message": "Portfolio loaded.", "path": str(dest_path)}), 200
 
 
+# =========================================================
+# 🟠 portfolio.html routes: data display, edit, download 🟠
+# =========================================================
+
 def _load_current_portfolio() -> Dict:
     current_dir = BACKEND_DIR / "current_portfolio"
     if not current_dir.exists():
@@ -192,6 +201,23 @@ def _current_csv_path() -> Path:
     return current_dir / "current_portfolio.csv"
 
 
+def _load_stock_df(ticker: str, cache: dict) -> pd.DataFrame:
+    if ticker in cache:
+        return cache[ticker]
+    path = BACKEND_DIR / "stock_data" / f"{ticker}.csv"
+    if not path.exists():
+        cache[ticker] = pd.DataFrame()
+        return cache[ticker]
+    try:
+        df = pd.read_csv(path, parse_dates=["Date"])
+        df = df.sort_values("Date").reset_index(drop=True)
+        cache[ticker] = df
+        return df
+    except Exception:
+        cache[ticker] = pd.DataFrame()
+        return cache[ticker]
+
+
 def _validate_rows(rows: list) -> list:
     validated = []
     for idx, row in enumerate(rows, start=1):
@@ -216,6 +242,52 @@ def _validate_rows(rows: list) -> list:
             raise ValueError(f"Row {idx}: Date must be YYYY-MM-DD and not in the future.")
         validated.append([asset.upper(), str(qty_int), date_str])
     return validated
+
+
+def _enrich_rows(rows: list) -> Dict:
+    stock_cache = {}
+    enriched = []
+    for row in rows:
+        if len(row) < 3:
+            continue
+        ticker = row[0].strip().upper()
+        qty_str = row[1]
+        date_str = row[2]
+        cost_str = "N/A"
+        price_str = "N/A"
+        value_str = "N/A"
+        ret_str = "N/A"
+        pct_str = "N/A"
+        try:
+            qty = int(qty_str)
+            df = _load_stock_df(ticker, stock_cache)
+            if not df.empty and "Adj Close" in df:
+                acquired_dt = pd.to_datetime(date_str, errors="coerce")
+                if pd.isna(acquired_dt):
+                    raise ValueError("bad date")
+                entry_row = df[df["Date"] >= acquired_dt].head(1)
+                if entry_row.empty:
+                    entry_row = df.tail(1)
+                latest_row = df.tail(1)
+                if not entry_row.empty and not latest_row.empty:
+                    entry_price = float(entry_row["Adj Close"].iloc[0])
+                    current_price = float(latest_row["Adj Close"].iloc[0])
+                    cost = entry_price * qty
+                    value = current_price * qty
+                    ret = (current_price - entry_price) * qty
+                    pct = ((current_price - entry_price) / entry_price) if entry_price != 0 else 0.0
+                    price_str = f"${entry_price:,.2f}"
+                    cost_str = f"${cost:,.2f}"
+                    value_str = f"${value:,.2f}"
+                    ret_str = f"${ret:,.2f}"
+                    pct_str = f"{pct*100:+.2f}%"
+        except Exception:
+            pass
+        enriched.append(row + [price_str, cost_str, value_str, ret_str, pct_str])
+    return {
+        "columns": rows and ["Asset", "Quantity", "Date Acquired", "Cost/Share", "Cost", "Value", "Return", "Return %"] or [],
+        "rows": enriched
+    }
 
 
 @app.route('/current-portfolio/raw', methods=['GET'])
@@ -280,16 +352,15 @@ def current_portfolio():
     except Exception as e:
         return jsonify({"success": False, "error": f"Failed to load portfolio: {e}"}), 500
 
-    rows = table["rows"]
+    enriched = _enrich_rows(table["rows"])
+    rows = enriched["rows"]
+    columns = enriched["columns"]
     total = len(rows)
-    if total <= 10:
-        display_rows = rows
-    else:
-        display_rows = rows[:5] + rows[-5:]
+    display_rows = rows if total <= 10 else rows[:5] + rows[-5:]
 
     return jsonify({
         "success": True,
-        "columns": table["columns"],
+        "columns": columns,
         "rows": display_rows,
         "total_rows": total,
         "truncated": total > 10

@@ -93,6 +93,18 @@
   letter-spacing: 0.2em;
 }
 
+.pos {
+  color: #22c55e;
+}
+
+.neg {
+  color: #ef4444;
+}
+
+.neutral {
+  color: #e5e7eb;
+}
+
 .tab.inactive:hover {
   background: var(--edit-hover);
   transform: translateY(2px);

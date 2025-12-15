@@ -41,9 +41,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const tbody = document.createElement('tbody');
         rows.forEach((row, idx) => {
             const tr = document.createElement('tr');
-            row.forEach((cell) => {
+            row.forEach((cell, cellIdx) => {
                 const td = document.createElement('td');
+                const colName = columns[cellIdx];
                 td.textContent = cell;
+                if (colName === 'Return' || colName === 'Return %') {
+                    const num = parseFloat(String(cell).replace(/[^-0-9.]/g, ''));
+                    if (!isNaN(num)) {
+                        if (num > 0) td.classList.add('pos');
+                        else if (num < 0) td.classList.add('neg');
+                        else td.classList.add('neutral');
+                    }
+                }
                 tr.appendChild(td);
             });
             tbody.appendChild(tr);
