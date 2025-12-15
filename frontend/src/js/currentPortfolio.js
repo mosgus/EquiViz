@@ -55,6 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 tr.appendChild(td);
             });
+            if (row[0] === 'Net Total') {
+                tr.classList.add('net-row');
+            }
             tbody.appendChild(tr);
 
             // Insert an ... row if truncated and we're after the 5th entry

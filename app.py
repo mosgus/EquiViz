@@ -247,6 +247,11 @@ def _validate_rows(rows: list) -> list:
 def _enrich_rows(rows: list) -> Dict:
     stock_cache = {}
     enriched = []
+    cost_sum = 0.0
+    value_sum = 0.0
+    qty_sum = 0
+    price_accum = 0.0
+    price_count = 0
     for row in rows:
         if len(row) < 3:
             continue
@@ -281,9 +286,29 @@ def _enrich_rows(rows: list) -> Dict:
                     value_str = f"${value:,.2f}"
                     ret_str = f"${ret:,.2f}"
                     pct_str = f"{pct*100:+.2f}%"
+                    cost_sum += cost
+                    value_sum += value
+                    qty_sum += qty
+                    price_accum += entry_price
+                    price_count += 1
         except Exception:
             pass
         enriched.append(row + [price_str, cost_str, value_str, ret_str, pct_str])
+    if enriched:
+        net_ret = value_sum - cost_sum
+        net_pct = (net_ret / cost_sum * 100) if cost_sum else 0.0
+        avg_price = (price_accum / price_count) if price_count else 0.0
+        net_row = [
+            "Net Total",
+            str(qty_sum) if qty_sum else "0",
+            "N/A",
+            f"${avg_price:,.2f}" if price_count else "N/A",
+            f"${cost_sum:,.2f}",
+            f"${value_sum:,.2f}",
+            f"${net_ret:,.2f}",
+            f"{net_pct:+.2f}%"
+        ]
+        enriched.append(net_row)
     return {
         "columns": rows and ["Asset", "Quantity", "Date Acquired", "Cost/Share", "Cost", "Value", "Return", "Return %"] or [],
         "rows": enriched

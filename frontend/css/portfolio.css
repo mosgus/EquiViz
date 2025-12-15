@@ -105,6 +105,10 @@
   color: #e5e7eb;
 }
 
+.net-row td {
+  font-weight: 700;
+}
+
 .tab.inactive:hover {
   background: var(--edit-hover);
   transform: translateY(2px);
