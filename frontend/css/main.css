@@ -51,9 +51,9 @@ body {
   gap: 12px;
 }
 
-.icon-button { /* Remove later with Burger icon*/
-  width: 40px;
-  height: 40px;
+.icon-button { /* Placeholder for future burger icon */
+  width: 32px;
+  height: 32px;
   border-radius: 12px;
   border: 1px solid var(--border);
   background: #f9fafb;
@@ -61,6 +61,12 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+
+.icon-button img,
+.icon-button svg {
+  width: 18px;
+  height: 18px;
 }
 
 .banner-link { /* About and Sign in text*/
@@ -71,14 +77,21 @@ body {
 }
 
 .profile-icon { /* Circle. to be replaced with profile icon */
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  border-radius: 12px;
   border: 1px solid var(--border);
+  background: #f9fafb;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #e5e7eb;
+  cursor: pointer;
+}
+
+.profile-icon img,
+.profile-icon svg {
+  width: 18px;
+  height: 18px;
 }
 
 .app-shell { /* card */

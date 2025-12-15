@@ -22,6 +22,7 @@ if str(BASE_DIR) not in sys.path:
 
 from backend.postPort import validate_portfolio_input, save_portfolio, _slugify_name
 from backend.getStonks import update_current_portfolio_data
+from backend.portAnal import run_portfolio_analysis
 
 # Serve templates and static assets from /frontend
 app = Flask(
@@ -63,6 +64,7 @@ def create_portfolio():
 
     try:
         update_current_portfolio_data()
+        run_portfolio_analysis()
     except Exception as e:
         return jsonify({"success": False, "error": f"Portfolio saved but failed to initialize data: {e}"}), 500
 
@@ -117,6 +119,7 @@ def upload_portfolio():
 
     try:
         update_current_portfolio_data()
+        run_portfolio_analysis()
     except Exception as e:
         return jsonify({"success": False, "error": f"Saved file but failed to fetch stock data: {e}"}), 500
 
@@ -160,6 +163,7 @@ def select_portfolio():
     try:
         shutil.copy2(source_file, dest_path)
         update_current_portfolio_data()
+        run_portfolio_analysis()
     except Exception as e:
         return jsonify({"success": False, "error": f"Failed to load portfolio: {e}"}), 500
 
@@ -370,6 +374,7 @@ def update_portfolio():
             writer.writerow(expected)
             writer.writerows(validated_rows)
         update_current_portfolio_data()
+        run_portfolio_analysis()
     except Exception as e:
         return jsonify({"success": False, "error": f"Failed to update portfolio: {e}"}), 500
 
@@ -398,6 +403,14 @@ def current_portfolio():
         "total_rows": total,
         "truncated": total > 10
     }), 200
+
+
+@app.route('/current-portfolio/papie.png')
+def portfolio_papie():
+    papie_path = BACKEND_DIR / "current_portfolio" / "PApie.png"
+    if not papie_path.exists():
+        return jsonify({"success": False, "error": "Analysis image not found."}), 404
+    return send_from_directory(papie_path.parent, papie_path.name)
 
 
 @app.route('/download-current', methods=['GET'])
