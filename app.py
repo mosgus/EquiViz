@@ -54,6 +54,11 @@ def create_portfolio():
     except Exception as e:
         return jsonify({"success": False, "error": f"Failed to save current_portfolio: {e}"}), 500
 
+    try:
+        update_current_portfolio_data()
+    except Exception as e:
+        return jsonify({"success": False, "error": f"Portfolio saved but failed to initialize data: {e}"}), 500
+
     return jsonify({
         "success": True,
         "message": message,

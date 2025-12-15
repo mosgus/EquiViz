@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (meta) {
             meta.textContent = truncated
                 ? `Showing first 5 and last 5 of ${total_rows} rows`
-                : `Showing ${total_rows} rows`;
+                : `Showing ${total_rows} row(s)`;
         }
     };
 
