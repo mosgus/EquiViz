@@ -1,5 +1,5 @@
 # EquiViz 📊
-A Python-based equity portfolio visualizer using Streamlit and yfinance.
+A Python-based equity portfolio visualizer using HTML & JS.
 
 ### Features
 - **Web Interface**:
