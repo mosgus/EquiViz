@@ -252,6 +252,8 @@ def _enrich_rows(rows: list) -> Dict:
     qty_sum = 0
     price_accum = 0.0
     price_count = 0
+    price_today_accum = 0.0
+    price_today_count = 0
     for row in rows:
         if len(row) < 3:
             continue
@@ -260,6 +262,7 @@ def _enrich_rows(rows: list) -> Dict:
         date_str = row[2]
         cost_str = "N/A"
         price_str = "N/A"
+        price_today_str = "N/A"
         value_str = "N/A"
         ret_str = "N/A"
         pct_str = "N/A"
@@ -282,6 +285,7 @@ def _enrich_rows(rows: list) -> Dict:
                     ret = (current_price - entry_price) * qty
                     pct = ((current_price - entry_price) / entry_price) if entry_price != 0 else 0.0
                     price_str = f"${entry_price:,.2f}"
+                    price_today_str = f"${current_price:,.2f}"
                     cost_str = f"${cost:,.2f}"
                     value_str = f"${value:,.2f}"
                     ret_str = f"${ret:,.2f}"
@@ -291,18 +295,22 @@ def _enrich_rows(rows: list) -> Dict:
                     qty_sum += qty
                     price_accum += entry_price
                     price_count += 1
+                    price_today_accum += current_price
+                    price_today_count += 1
         except Exception:
             pass
-        enriched.append(row + [price_str, cost_str, value_str, ret_str, pct_str])
+        enriched.append(row + [price_str, price_today_str, cost_str, value_str, ret_str, pct_str])
     if enriched:
         net_ret = value_sum - cost_sum
         net_pct = (net_ret / cost_sum * 100) if cost_sum else 0.0
         avg_price = (price_accum / price_count) if price_count else 0.0
+        avg_price_today = (price_today_accum / price_today_count) if price_today_count else 0.0
         net_row = [
             "Net Total",
             str(qty_sum) if qty_sum else "0",
             "N/A",
             f"${avg_price:,.2f}" if price_count else "N/A",
+            f"${avg_price_today:,.2f}" if price_today_count else "N/A",
             f"${cost_sum:,.2f}",
             f"${value_sum:,.2f}",
             f"${net_ret:,.2f}",
@@ -310,7 +318,7 @@ def _enrich_rows(rows: list) -> Dict:
         ]
         enriched.append(net_row)
     return {
-        "columns": rows and ["Asset", "Quantity", "Date Acquired", "Cost/Share", "Cost", "Value", "Return", "Return %"] or [],
+        "columns": rows and ["Asset", "Qty", "Acquired", "$/Share", "$/Share tdy", "Cost", "Value", "Return", "Return %"] or [],
         "rows": enriched
     }
 
