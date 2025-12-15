@@ -1,5 +1,6 @@
 //portfolio.js
 
+// Submits the create-portfolio form from index.html to the Flask backend
 document.addEventListener('DOMContentLoaded', () => {
     const createForm = document.getElementById('createForm');
     const errorMsg = document.getElementById('errorMessage');

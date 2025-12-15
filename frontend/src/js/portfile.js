@@ -1,3 +1,4 @@
+// Handles upload/select portfolio actions in index.html and calls backend upload/select endpoints
 // Handles portfolio file uploads
 document.addEventListener('DOMContentLoaded', () => {
     const uploadBtn = document.getElementById('uploadFileButton');

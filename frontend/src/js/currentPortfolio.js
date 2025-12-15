@@ -1,3 +1,4 @@
+// Renders the current portfolio table on portfolio.html and wires edit/save/download actions
 // Fetch and render the current portfolio table
 document.addEventListener('DOMContentLoaded', () => {
     const tableContainer = document.getElementById('portfolioTable');

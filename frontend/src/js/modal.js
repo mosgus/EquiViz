@@ -1,5 +1,6 @@
 // static/js/modal.js
 
+// Handles modal open/close for create/upload/select flows used in index.html
 document.addEventListener('DOMContentLoaded', () => {
     const modalConfig = [
         { trigger: '.port_butt', modalId: 'createModal' },
