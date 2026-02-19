@@ -1,5 +1,6 @@
 # EquiViz 📊
-A Python-based equity portfolio visualizer using HTML & JS.
+Basic KPI Software(Prototype)
+Python-based equity portfolio visualizer using HTML & JS.
 
 ### Features
 - **Web Interface**:
